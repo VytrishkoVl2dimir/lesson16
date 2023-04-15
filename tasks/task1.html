@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задачі 1</h2>
+	<h3>Умови задач</h3>
+	<p>
+		Створити клас TDate для роботи із датами у форматі “день.місяць.рік”.
+		Дата представляється структурою із трьома полями. Реалізувати методи збільшення/зменшення дати на певну кількість
+		днів,
+		місяців чи років. Введення та виведення дати реалізувати за допомогою методу toString.
+	</p>
+
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================		
+		class TDate {
+			constructor(day, month, year) {
+				this.day = day
+				this.month = month
+				this.year = year
+			}
+			//------------Метод перевірки, чи є рік високосним--------------------
+			isLeapYear(year) {
+				return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
+			}
+			//------------Метод визначення кількості днів в місяці--------------------
+			numberDays(numberMonth) {
+				const numberDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+				const numberDaysInMonthInLeapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+				return this.isLeapYear(this.year) ? numberDaysInMonth[numberMonth - 1] : numberDaysInMonthInLeapYear[numberMonth - 1]
+			}
+			// numberDays(numberMonth) {
+			// 	let numberDaysInMonth
+			// 	switch (numberMonth) {
+			// 		case 1:
+			// 		case 3:
+			// 		case 5:
+			// 		case 7:
+			// 		case 8:
+			// 		case 10:
+			// 		case 12: numberDaysInMonth = 31
+			// 			break
+			// 		case 2: this.isLeapYear(this.year) ? numberDaysInMonth = 29 : numberDaysInMonth = 28
+			// 			break
+			// 		default: numberDaysInMonth = 30
+			// 	}
+			// 	return numberDaysInMonth
+			// }
+
+			//------------Метод збільшення років--------------------
+			increaseYear(value) {
+				this.year += value
+			}
+			//------------Метод зменшення років--------------------
+			decreaseYear(value) {
+				this.year -= value
+			}
+			//------------Метод збільшення місяців--------------------
+			increaseMonth(value) {
+				this.month += value
+				this.increaseYear(Math.floor((this.month - 1) / 12))
+				this.month = ((this.month - 1) % 12) + 1
+			}
+			//------------Метод зменшення місяців--------------------
+			decreaseMonth(value) {
+				this.month -= value
+				while (this.month < 0) {
+					this.decreaseYear(1)
+					this.month += 12
+				}
+			}
+
+			//------------Метод збільшення днів--------------------
+			increaseDay(value) {
+				let currentNumbersDays = this.day + value
+
+				this.increaseYear(Math.floor(currentNumbersDays / 365))
+
+				let numberDaysInCurrentMonth = this.numberDays(this.month)
+
+				while (currentNumbersDays > numberDaysInCurrentMonth) {
+					currentNumbersDays -= numberDaysInCurrentMonth
+					this.increaseMonth(1)
+					numberDaysInCurrentMonth = this.numberDays(this.month)
+				}
+				this.day = currentNumbersDays
+			}
+			//------------Метод зменшення днів--------------------
+			decreaseDay(value) {
+				let currentNumbersDays = this.day - value
+				while (currentNumbersDays <= 0) {
+					this.decreaseMonth(1)
+					let numberDaysInCurrentMonth = this.numberDays(this.month)
+					currentNumbersDays += numberDaysInCurrentMonth
+				}
+				this.day = currentNumbersDays
+			}
+
+			toString() {
+				return `${this.day}.${this.month}.${this.year}`
+			}
+		}
+		let d1 = new TDate(1, 4, 2000)
+		document.write(d1)
+		document.write('<br>')
+		d1.increaseYear(10)
+		document.write(d1)
+		document.write('<br>')
+		d1.decreaseYear(10)
+		document.write(d1)
+		document.write('<br>')
+		d1.increaseMonth(21)
+		document.write(d1)
+		document.write('<br>')
+		d1.decreaseMonth(21)
+		document.write(d1)
+		document.write('<br>')
+		d1.increaseDay(32)
+		document.write(d1)
+		document.write('<br>')
+		d1.decreaseDay(32)
+		document.write(d1)
+
+
+
+
+
+		//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>

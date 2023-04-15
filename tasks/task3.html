@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 3</h2>
+	<h3>Умови задач</h3>
+	<p>
+		Об’єкт “Фірма” (використати члени-класи)
+		поля ▪ назва фірми;
+		▪ дата заснування (рік, місяць);
+		▪ послуги (назва послуги, вартість, термін виконання);
+		▪ адреси філіалів (країна, місто, вулиця, номер будинку);
+		методи ▪ визначення кількості років існування фірми;
+		▪ виведення всіх філіалів фірми у вказаному місті;
+		▪ виведення на екран послуг, що можуть бути виконані за вказану суму грошей та вказаний термін часу;
+
+	</p>
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+
+		class Services {
+			constructor(nameService, cost, termOfExecution) {
+				this.nameService = nameService
+				this.cost = cost
+				this.termOfExecution = termOfExecution
+			}
+			toString() {
+				return `Послуга: ${this.nameService}, вартість - ${this.cost} грн., термін виконання - ${this.termOfExecution} год.`
+			}
+		}
+
+		class Address {
+			constructor(country, city, street, houseNumber) {
+				this.country = country
+				this.city = city
+				this.street = street
+				this.houseNumber = houseNumber
+			}
+			toString() {
+				return `Адреса: ${this.country}, м.${this.city}, вул.${this.street}, буд.${this.houseNumber}`
+			}
+		}
+
+		class Firm {
+			constructor(name, yearFoundation, monthFoundation, serviceList, branchesList) {
+				this.name = name
+				this.yearFoundation = yearFoundation
+				this.monthFoundation = monthFoundation
+				this.services = serviceList
+				this.address = branchesList
+			}
+			// 		▪ виведення всіх філіалів фірми у вказаному місті;
+			searchingBranchesInSpecifiedCity(city) {
+				let branchesInSpecifiedCity = []
+				for (const branch of this.address) {
+					if (branch.city === city) branchesInSpecifiedCity.push(branch.toString())
+				}
+				return branchesInSpecifiedCity
+			}
+
+			//	▪ виведення на екран послуг, що можуть бути виконані за вказану суму грошей та вказаний термін часу;
+			getServicesForSpecifiedCost(numberMoney, numberTime) {
+				let servicesForSpecifiedCost = []
+				for (const service of this.services) {
+					if (service.cost <= numberMoney && service.termOfExecution <= numberTime) servicesForSpecifiedCost.push(service.toString())
+				}
+				return servicesForSpecifiedCost
+			}
+			toString() {
+				return `Фірма - ${this.name}, дата заснування - ${this.monthFoundation}.${this.yearFoundation}`
+			}
+		}
+
+		const serviceList = [
+			new Services('Ремонт двигуна', 5000, 200),
+			new Services('Заміна масла', 500, 2),
+			new Services('Заміна паливного фільтра', 600, 3),
+			new Services('Заміна ступиці', 1000, 8)
+		]
+
+		const branchesList = [
+			new Address('Україна', 'Харків', 'Наукова', 25),
+			new Address('Україна', 'Харків', 'Перемоги', 150),
+			new Address('Україна', 'Львів', 'Волі', 40),
+			new Address('Україна', 'Київ', 'Григоренка', 36),
+			new Address('Україна', 'Київ', 'Грушевського', 80)
+		]
+
+		let firm_1 = new Firm('Автосервіс', 2000, 5, serviceList, branchesList)
+		console.log(firm_1.toString())
+		console.log(firm_1.searchingBranchesInSpecifiedCity('Київ'))
+		console.log(firm_1.getServicesForSpecifiedCost(1000, 100))
+
+//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>

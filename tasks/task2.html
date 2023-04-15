@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 2</h2>
+	<h3>Умови задач</h3>
+	<p>
+		Створити клас TMoney для роботи з грошовими сумами.
+		Сума повинна зберігатися у вигляді доларового еквіваленту.
+		Реалізувати методи додавання/вилучення грошової маси, вказуючи необхідну суму у гривнях,
+		та визначення курсу долара, при якому сума у гривнях збільшиться на 100.
+		Курс долара зберігати в окремому полі.
+	</p>
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+		class TMoney {
+			#exchangeRates
+			#money = 0
+			constructor(money, exchangeRates) {
+				this.ExchangeRates = exchangeRates
+				this.Money = money
+			}
+			get Money() {
+				return this.#money
+			}
+			get ExchangeRates() {
+				return this.#exchangeRates
+			}
+			// визначення курсу долара, при якому сума у гривнях збільшиться на 100
+			get exchangeRateMoneyIncreaseBy_100() {
+				return (this.Money * this.ExchangeRates + 100) / this.Money
+			}
+
+			set ExchangeRates(value) {
+				if (value < 0) throw new Error('Некоректне значення')
+				this.#exchangeRates = value
+			}
+			//Додавання або зняття коштів (при цьому вводимо від`ємне число)
+			set Money(value) {
+				if ((this.Money + value / this.ExchangeRates) < 0) throw new Error('У Вас недостатньо коштів на рахунку')
+				this.#money += value / this.#exchangeRates
+			}
+			toString() {
+				return `Коштів на рахунку - ${this.Money * this.ExchangeRates} грн. Курс долара - ${this.ExchangeRates}`
+			}
+		}
+
+		const client = new TMoney(1000, 40)
+		document.write(client)
+		document.write('<br>')
+		document.write(client.exchangeRateMoneyIncreaseBy_100)
+		document.write('<br>')
+		client.Money = -500
+		document.write('<br>')
+		document.write(client)
+		//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>

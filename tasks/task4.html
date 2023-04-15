@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 4</h2>
+	<h3>Умови задач</h3>
+	<p>
+		Створити клас TBankomat, який моделює роботу банкомата.
+		Клас повинен містити поля для зберігання кількості купюр кожного із номіналів від 5 до 200 гривень.
+		Реалізувати методи знаходження максимальної та мінімальної сум, які може видати банкомат, та метод зняття деякої
+		суми.
+	</p>
+	<h3>Розв'язок</h3>
+	<script>
+		//====================================================================================================================================================
+		class Banknotes {
+			constructor(name, value) {
+				this.name = name
+				this.value = value
+			}
+			toString() {
+				return `${this.name} - ${this.value}`
+			}
+		}
+
+		class TBankomat {
+			constructor(totalNumberMoney) {
+				this.numberBanknotes = totalNumberMoney
+			}
+
+			getMaxSum() {
+				return this.numberBanknotes.reduce((prevSum, elem) => prevSum + elem.name * elem.value, 0)
+			}
+			//метод знаходження мінімальної суми
+			getMinSum() {
+				for (const banknote of this.numberBanknotes) {
+					if (banknote.value > 0) return banknote.name
+				}
+				return 0
+			}
+
+			// метод зняття готівки. 
+			cashWithdrawal(cash) {
+				if (cash > this.getMaxSum() || cash < this.getMinSum()) throw new Error('Операція неможлива')
+				for (let i = this.numberBanknotes.length - 1; i >= 0; i--) {
+					while (this.numberBanknotes[i].value > 0 && Math.floor(cash / this.numberBanknotes[i].name) > 0) {
+						cash -= this.numberBanknotes[i].name
+						this.numberBanknotes[i].value--
+					}
+				}
+			}
+			toString() {
+				return this.numberBanknotes
+			}
+		}
+		let totalNumberMoney = [
+			new Banknotes(5, 20),
+			new Banknotes(10, 50),
+			new Banknotes(20, 41),
+			new Banknotes(50, 56),
+			new Banknotes(100, 28),
+			new Banknotes(200, 20)
+		]
+
+
+
+		let b1 = new TBankomat(totalNumberMoney)
+		document.write(`Купюри - ${b1.toString()}<br>`)
+		document.write(`Максимальна сума - ${b1.getMaxSum()} грн.<br>`)
+		document.write(`Мінімальна сума - ${b1.getMinSum()} грн.<br>`)
+		b1.cashWithdrawal(100)
+		document.write(`Максимальна сума - ${b1.getMaxSum()} грн.<br>`)
+		document.write(`Купюри - ${b1.toString()}<br>`)
+
+
+
+		//========================================================================================================================================================
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>
